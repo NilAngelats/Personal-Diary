@@ -1,7 +1,8 @@
+import { splitEntries } from "../helpers/splitEntries";
 import { EntriesContext } from "./DailyEntriesContext";
 import { useState } from "react";
 
-const entriesViewsInitial = {
+const initialEntry = {
   today: [],
   week: [],
   month: [],
@@ -9,20 +10,16 @@ const entriesViewsInitial = {
 };
 
 const DailyEntriesContextProvider = ({ children }) => {
-  const [entriesViews, setEntriesViews] = useState(entriesViewsInitial);
   const [entries, setEntries] = useState(() => {
-    return localStorage.getItem("entries") ?? [];
+    const localStorageEntries = localStorage.getItem("entries") ?? [];
+
+    if (localStorageEntries.length === 0) return initialEntry;
+
+    return splitEntries(localStorageEntries);
   });
 
-  const splittingEntries = () => {
-    if (entries.length === 0) return;
-    return splittingEntries(entries);
-  };
-
   return (
-    <EntriesContext value={{ entries, setEntries, entriesViews }}>
-      {children}
-    </EntriesContext>
+    <EntriesContext value={{ entries, setEntries }}>{children}</EntriesContext>
   );
 };
 
