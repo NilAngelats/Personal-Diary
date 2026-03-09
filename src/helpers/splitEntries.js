@@ -29,23 +29,29 @@
 export const splitEntries = (entries) => {
   const today = new Date();
 
+  /** We need to normalize the dates, so we can compare them properly */
+  today.setHours(0, 0, 0, 0);
+
   /** Setting the startOfWeek on Sunday */
   const startOfWeek = new Date(today);
   startOfWeek.setDate(today.getDate() - today.getDay());
+  startOfWeek.setHours(0, 0, 0, 0);
 
   /** Setting the endOfWeek on next Sunday */
   const endOfWeek = new Date(startOfWeek);
   endOfWeek.setDate(startOfWeek.getDate() + 7);
+  endOfWeek.setHours(0, 0, 0, 0);
 
   const result = {
     today: [],
     week: [],
     month: [],
-    all: [...entries],
+    all: entries,
   };
 
   entries.forEach((entry) => {
     const entryDate = new Date(entry.date);
+    entryDate.setHours(0, 0, 0, 0);
 
     if (entryDate.toDateString() === today.toDateString()) {
       result.today.push(entry);
