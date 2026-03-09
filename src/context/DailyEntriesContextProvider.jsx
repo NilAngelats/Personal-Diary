@@ -1,6 +1,6 @@
 import { splitEntries } from "../helpers/splitEntries";
 import { EntriesContext } from "./DailyEntriesContext";
-import { useState } from "react";
+import { use, useState } from "react";
 
 const initialEntry = {
   today: [],
@@ -11,7 +11,9 @@ const initialEntry = {
 
 const DailyEntriesContextProvider = ({ children }) => {
   const [entries, setEntries] = useState(() => {
-    const localStorageEntries = localStorage.getItem("entries") ?? [];
+    const localStorageEntries = localStorage.getItem("entries")
+      ? JSON.parse(localStorage.getItem("entries"))
+      : [];
 
     if (localStorageEntries.length === 0) return initialEntry;
 
