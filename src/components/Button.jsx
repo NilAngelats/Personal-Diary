@@ -1,4 +1,4 @@
-const Button = ({ label, active = false }) => {
+const Button = ({ label, active = false, onClick = () => {} }) => {
   return (
     <button
       className={`
@@ -15,6 +15,7 @@ const Button = ({ label, active = false }) => {
           : "bg-base-200 text-base-content hover:bg-blue-100 hover:text-blue-700"
       }
       `}
+      onClick={onClick}
     >
       {label}
     </button>
